@@ -2,7 +2,12 @@ use crate::CliError;
 use reqwest::blocking::Client;
 use serde_json::Value;
 
-fn rpc_call(client: &Client, rpc_url: &str, method: &str, params: Vec<Value>) -> Result<Value, CliError> {
+fn rpc_call(
+    client: &Client,
+    rpc_url: &str,
+    method: &str,
+    params: Vec<Value>,
+) -> Result<Value, CliError> {
     let body = serde_json::json!({
         "jsonrpc": "2.0",
         "method": method,
@@ -24,7 +29,6 @@ pub fn get_block_number(client: &Client, rpc_url: &str) -> Result<u64, CliError>
     let block_number = u64::from_str_radix(hex_str, 16)?;
     Ok(block_number)
 }
-
 
 #[cfg(test)]
 mod tests {

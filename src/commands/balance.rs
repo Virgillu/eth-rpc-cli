@@ -2,7 +2,12 @@ use crate::CliError;
 use reqwest::blocking::Client;
 use serde_json::{Value, json};
 
-fn rpc_call(client: &Client, rpc_url: &str, method: &str, params: Vec<Value>) -> Result<Value, CliError> {
+fn rpc_call(
+    client: &Client,
+    rpc_url: &str,
+    method: &str,
+    params: Vec<Value>,
+) -> Result<Value, CliError> {
     let body = json!({
         "jsonrpc": "2.0",
         "method": method,
@@ -25,7 +30,6 @@ pub fn get_balance(client: &Client, rpc_url: &str, address: &str) -> Result<f64,
     let wei = u128::from_str_radix(hex_str, 16)?;
     Ok(wei as f64 / 1e18)
 }
-
 
 #[cfg(test)]
 mod tests {

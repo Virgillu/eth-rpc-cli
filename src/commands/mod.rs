@@ -1,4 +1,4 @@
-mod block_number;
 mod balance;
-pub use block_number::get_block_number;
+mod block_number;
 pub use balance::get_balance;
+pub use block_number::get_block_number;
