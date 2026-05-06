@@ -24,3 +24,14 @@ pub fn get_block_number(client: &Client, rpc_url: &str) -> Result<u64, CliError>
     let block_number = u64::from_str_radix(hex_str, 16)?;
     Ok(block_number)
 }
+
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_parse_block_number() {
+        let hex_block = "0x134567";
+        let parsed = u64::from_str_radix(hex_block.trim_start_matches("0x"), 16).unwrap();
+        assert_eq!(parsed, 1262951);
+    }
+}

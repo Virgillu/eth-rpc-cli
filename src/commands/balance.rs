@@ -25,3 +25,15 @@ pub fn get_balance(client: &Client, rpc_url: &str, address: &str) -> Result<f64,
     let wei = u128::from_str_radix(hex_str, 16)?;
     Ok(wei as f64 / 1e18)
 }
+
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_parse_balance() {
+        let hex_wei = "0x1bc16d674ec80000";
+        let wei = u128::from_str_radix(hex_wei.trim_start_matches("0x"), 16).unwrap();
+        let eth = wei as f64 / 1e18;
+        assert!((eth - 2.0).abs() < 1e-12);
+    }
+}
