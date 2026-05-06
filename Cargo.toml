@@ -15,3 +15,5 @@ clap = { version = "4.0", features = ["derive"] }
 hex = "0.4"
 
 dotenv = "0.15"
+
+thiserror = "1.0"
