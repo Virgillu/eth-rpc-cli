@@ -2,7 +2,12 @@
 name = "eth-rpc-cli"
 version = "0.1.0"
 edition = "2024"
-
+description = "A lightweight CLI tool to query Ethereum blockchain data via JSON-RPC"
+license = "MIT"
+repository = "https://github.com/Virgillu/eth-rpc-cli"
+keywords = ["ethereum", "rpc", "cli", "blockchain", "web3"]
+categories = ["command-line-utilities", "web-programming"]
+readme = "README.md"
 [dependencies]
 
 reqwest = { version = "0.11", features = ["blocking", "json"] }
