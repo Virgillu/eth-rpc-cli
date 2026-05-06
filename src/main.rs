@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use reqwest::blocking::Client;
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 
 #[derive(Parser)]
 #[command(name = "eth-rpc-cli")]
@@ -30,7 +30,12 @@ enum Commands {
 }
 
 /// 发送 JSON-RPC 请求并返回结果字段
-fn rpc_call(client: &Client, rpc_url: &str, method: &str, params: Vec<Value>) -> Result<Value, Box<dyn std::error::Error>> {
+fn rpc_call(
+    client: &Client,
+    rpc_url: &str,
+    method: &str,
+    params: Vec<Value>,
+) -> Result<Value, Box<dyn std::error::Error>> {
     let body = json!({
         "jsonrpc": "2.0",
         "method": method,
@@ -38,10 +43,8 @@ fn rpc_call(client: &Client, rpc_url: &str, method: &str, params: Vec<Value>) ->
         "id": 1,
     });
 
-    let response = client.post(rpc_url)
-        .json(&body)
-        .send()?;
-    
+    let response = client.post(rpc_url).json(&body).send()?;
+
     let resp_json: Value = response.json()?;
     if let Some(error) = resp_json.get("error") {
         return Err(format!("RPC error: {}", error).into());
@@ -56,7 +59,11 @@ fn get_block_number(client: &Client, rpc_url: &str) -> Result<u64, Box<dyn std::
     Ok(block_number)
 }
 
-fn get_balance(client: &Client, rpc_url: &str, address: &str) -> Result<f64, Box<dyn std::error::Error>> {
+fn get_balance(
+    client: &Client,
+    rpc_url: &str,
+    address: &str,
+) -> Result<f64, Box<dyn std::error::Error>> {
     let params = vec![json!(address), json!("latest")];
     let result = rpc_call(client, rpc_url, "eth_getBalance", params)?;
     let hex_str = result.as_str().unwrap().trim_start_matches("0x");
@@ -70,17 +77,13 @@ fn main() {
     let client = Client::new();
 
     match cli.command {
-        Commands::BlockNumber { rpc_url } => {
-            match get_block_number(&client, &rpc_url) {
-                Ok(num) => println!("Current block number: {}", num),
-                Err(e) => eprintln!("Error: {}", e),
-            }
-        }
-        Commands::Balance { rpc_url, address } => {
-            match get_balance(&client, &rpc_url, &address) {
-                Ok(balance) => println!("Balance of {}: {} ETH", address, balance),
-                Err(e) => eprintln!("Error: {}", e),
-            }
-        }
+        Commands::BlockNumber { rpc_url } => match get_block_number(&client, &rpc_url) {
+            Ok(num) => println!("Current block number: {}", num),
+            Err(e) => eprintln!("Error: {}", e),
+        },
+        Commands::Balance { rpc_url, address } => match get_balance(&client, &rpc_url, &address) {
+            Ok(balance) => println!("Balance of {}: {} ETH", address, balance),
+            Err(e) => eprintln!("Error: {}", e),
+        },
     }
 }
