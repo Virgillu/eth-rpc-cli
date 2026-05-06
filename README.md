@@ -1,5 +1,9 @@
 eth-rpc-cli
 
+[![CI](https://github.com/Virgillu/eth-rpc-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/Virgillu/eth-rpc-cli/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/rust-stable-brightgreen)](https://www.rust-lang.org/)
+
 A lightweight Rust CLI tool to query Ethereum blockchain data via JSON‑RPC.
 Built with reqwest, serde_json, and clap.
 
