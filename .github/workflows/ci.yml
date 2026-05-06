@@ -11,15 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           components: rustfmt, clippy
-      - name: Format check
+
+      - name: Check formatting
         run: cargo fmt -- --check
-      - name: Clippy
+
+      - name: Run clippy
         run: cargo clippy -- -D warnings
+
       - name: Build
         run: cargo build --release
-      - name: Test
+
+      - name: Run tests
         run: cargo test
