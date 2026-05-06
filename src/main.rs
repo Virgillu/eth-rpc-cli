@@ -87,3 +87,25 @@ fn main() {
         },
     }
 }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn test_parse_block_number() {
+        
+        let hex_block = "0x134567";
+        let parsed = u64::from_str_radix(hex_block.trim_start_matches("0x"), 16).unwrap();
+        assert_eq!(parsed, 1262951);
+    }
+
+    #[test]
+    fn test_parse_balance() {
+        
+        let hex_wei = "0x1bc16d674ec80000";
+        let wei = u128::from_str_radix(hex_wei.trim_start_matches("0x"), 16).unwrap();
+        let eth = wei as f64 / 1e18;
+        assert!((eth - 2.0).abs() < 1e-12);
+    }
+}
